@@ -1,5 +1,5 @@
 // controllers/userController.js
-import { createUser, getUserByPhone } from "../services/userService";
+import { createUser, getUserByPhone } from "../../services/userService.js";
 
 export const createUserController = async (req, res) => {
     const { name, phone } = req.body;

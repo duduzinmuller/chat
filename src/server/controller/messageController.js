@@ -1,4 +1,7 @@
-import { createMessage, getMessagesByUserId } from "../services/messageService";
+import {
+    createMessage,
+    getMessagesByUserId,
+} from "../../services/messageService.js";
 
 export const createMessageController = async (req, res) => {
     const { userId, content, fileUrl, fileType } = req.body;

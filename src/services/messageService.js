@@ -1,4 +1,4 @@
-import prisma from "../../utils/prismaClient";
+import prisma from "../utils/prismaClient.js";
 
 export const createMessage = async (userId, content, fileUrl, fileType) => {
     try {

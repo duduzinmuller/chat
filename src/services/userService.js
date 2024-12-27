@@ -1,5 +1,5 @@
 // services/userService.js
-import prisma from "../utils/prismaClient";
+import prisma from "../utils/prismaClient.js";
 
 export const createUser = async (name, phone) => {
     try {
