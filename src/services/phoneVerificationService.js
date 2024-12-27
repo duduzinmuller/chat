@@ -18,7 +18,7 @@ export const sendVerificationCode = async (phoneNumber, contactId) => {
 
         await prisma.phoneVerification.create({
             data: {
-                phone: phoneNumber,
+                contact: phoneNumber,
                 code: verificationCode,
                 expiresAt: expirationTime,
             },
