@@ -4,7 +4,7 @@ import {
 } from "../../services/messageService.js";
 
 export const createMessageController = async (req, res) => {
-    const { content, fileUrl, fileType, contactData } = req.body; // Aqui estamos extraindo contactData corretamente
+    const { content, fileUrl, fileType, contactData } = req.body;
 
     try {
         const message = await createMessage(
