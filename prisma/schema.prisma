@@ -12,22 +12,28 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model Contact {
-  id        Int      @id @default(autoincrement()) 
-  name      String   // Nome do contato
-  phone     String   @unique                    
-  messages  Message[]                            
+model PhoneVerification {
+  id        Int      @id @default(autoincrement())
+  code      String   @db.VarChar(6) // Adicionando limite de comprimento
+  expiresAt DateTime
+  contactId Int      // Não precisa ser único
+  contact   Contact  @relation(fields: [contactId], references: [id]) 
 }
 
+model Contact {
+  id            Int                @id @default(autoincrement())
+  name          String             // Nome do contato
+  phone         String             @unique @db.VarChar(15) // Adicionando limite de comprimento
+  messages      Message[]
+  verification  PhoneVerification []
+}
 model Message {
-  id          Int      @id @default(autoincrement()) 
-  content     String                               
-  createdAt   DateTime @default(now())              
-  contactId   Int                                  
+  id          Int      @id @default(autoincrement())
+  content     String
+  createdAt   DateTime @default(now())
+  contactId   Int
   contact     Contact  @relation(fields: [contactId], references: [id])
-  
+
   fileUrl     String?  // URL ou caminho do arquivo (pode ser uma foto, vídeo ou documento)
   fileType    String?  // Tipo do arquivo (imagem, vídeo, documento, etc.)
 }
-
