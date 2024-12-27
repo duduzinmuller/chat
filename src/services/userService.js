@@ -1,12 +1,15 @@
-// services/userService.js
 import prisma from "../utils/prismaClient.js";
 
-export const createUser = async (name, phone) => {
-    try {
+export const createUser = async (name, phone, bio, imageUrl) => {
+        try {
+       const defaultImage = "https://labes.inf.ufes.br/wp-content/uploads/sem-foto.jpg";
+
         const user = await prisma.contact.create({
             data: {
                 name: name,
                 phone: phone,
+                bio: bio,
+                imageUrl: imageUrl || defaultImage,
             },
         });
         return user;

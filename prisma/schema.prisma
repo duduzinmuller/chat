@@ -22,8 +22,10 @@ model PhoneVerification {
 
 model Contact {
   id            Int                @id @default(autoincrement())
-  name          String             // Nome do contato
-  phone         String             @unique @db.VarChar(15) // Adicionando limite de comprimento
+  name          String             
+  phone         String             @unique @db.VarChar(15)
+  imageUrl      String?            
+  bio           String?            
   messages      Message[]
   verification  PhoneVerification []
 }
