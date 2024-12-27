@@ -2,7 +2,12 @@ import { createUser, getUserByPhone } from "../../services/userService.js";
 import validator from "validator";
 
 export const createUserController = async (req, res) => {
-    const { name, phone, email, password } = req.body;
+    const { name, phone, email, password, bio, imageUrl } = req.body;
+
+    // Validação de senha
+    if (!password) {
+        return res.status(400).json({ message: "Password is required" });
+    }
 
     if (password.length < 8) {
         return res
@@ -10,12 +15,21 @@ export const createUserController = async (req, res) => {
             .json({ message: "Password must be at least 8 characters long" });
     }
 
+    // Validação de email
     if (!validator.isEmail(email)) {
         return res.status(400).json({ message: "Invalid email format" });
     }
 
     try {
-        const user = await createUser(name, phone, email, password);
+        // Chama o serviço de criação de usuário com todos os parâmetros
+        const user = await createUser(
+            name,
+            phone,
+            bio,
+            imageUrl,
+            email,
+            password,
+        );
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });

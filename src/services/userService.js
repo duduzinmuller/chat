@@ -4,22 +4,21 @@ import prisma from "../utils/prismaClient.js";
 export const createUser = async (
     name,
     phone,
-    bio,
-    imageUrl,
+    bio = null,
+    imageUrl = null,
     email,
     password,
 ) => {
     try {
         const defaultImage = process.env.PHOTO;
-
         const user = await prisma.contact.create({
             data: {
-                name: name,
-                phone: phone,
-                bio: bio,
+                name,
+                phone,
+                bio,
                 imageUrl: imageUrl || defaultImage,
-                email: email,
-                password: password,
+                email,
+                password,
             },
         });
         return user;
