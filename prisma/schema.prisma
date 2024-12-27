@@ -24,10 +24,10 @@ model Message {
   id          Int      @id @default(autoincrement()) 
   content     String                               
   createdAt   DateTime @default(now())              
-  contactId   Int                                   
+  contactId   Int                                  
   contact     Contact  @relation(fields: [contactId], references: [id])
   
-  // Novos campos para armazenar informações sobre arquivos
   fileUrl     String?  // URL ou caminho do arquivo (pode ser uma foto, vídeo ou documento)
   fileType    String?  // Tipo do arquivo (imagem, vídeo, documento, etc.)
 }
+

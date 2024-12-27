@@ -13,6 +13,8 @@ CREATE TABLE "Message" (
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "contactId" INTEGER NOT NULL,
+    "fileUrl" TEXT,
+    "fileType" TEXT,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );
