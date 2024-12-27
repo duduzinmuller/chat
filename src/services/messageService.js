@@ -12,7 +12,7 @@ export const createMessage = async (userId, content, fileUrl, fileType) => {
         });
         return message;
     } catch (error) {
-        throw new Error("Error creating message");
+        throw new Error("Error creating message", error);
     }
 };
 
@@ -26,6 +26,6 @@ export const getMessagesByUserId = async (userId) => {
         });
         return messages;
     } catch (error) {
-        throw new Error("Error fetching messages");
+        throw new Error("Error fetching messages", error);
     }
 };
