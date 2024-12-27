@@ -1,8 +1,8 @@
 import express from "express";
-import { sendVerification } from "../server/controller/phoneVerificationController.js";
+import { sendVerificationController } from "../server/controller/phoneVerificationController.js";
 
 const router = express.Router();
 
-router.post("/send", sendVerification);
+router.post("/send", sendVerificationController);
 
 export default router;

@@ -1,8 +1,16 @@
+import "dotenv/config.js";
 import prisma from "../utils/prismaClient.js";
 
-export const createUser = async (name, phone, bio, imageUrl) => {
-        try {
-       const defaultImage = "https://labes.inf.ufes.br/wp-content/uploads/sem-foto.jpg";
+export const createUser = async (
+    name,
+    phone,
+    bio,
+    imageUrl,
+    email,
+    password,
+) => {
+    try {
+        const defaultImage = process.env.PHOTO;
 
         const user = await prisma.contact.create({
             data: {
@@ -10,6 +18,8 @@ export const createUser = async (name, phone, bio, imageUrl) => {
                 phone: phone,
                 bio: bio,
                 imageUrl: imageUrl || defaultImage,
+                email: email,
+                password: password,
             },
         });
         return user;

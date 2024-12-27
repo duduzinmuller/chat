@@ -1,11 +1,21 @@
-// controllers/userController.js
 import { createUser, getUserByPhone } from "../../services/userService.js";
+import validator from "validator";
 
 export const createUserController = async (req, res) => {
-    const { name, phone } = req.body;
+    const { name, phone, email, password } = req.body;
+
+    if (password.length < 8) {
+        return res
+            .status(400)
+            .json({ message: "Password must be at least 8 characters long" });
+    }
+
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+    }
 
     try {
-        const user = await createUser(name, phone);
+        const user = await createUser(name, phone, email, password);
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });

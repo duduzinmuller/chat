@@ -16,16 +16,14 @@ export const sendVerificationCode = async (phoneNumber, contactId) => {
         const expirationTime = new Date();
         expirationTime.setMinutes(expirationTime.getMinutes() + 5);
 
-        // Cria a entrada no banco de dados com contactId diretamente
         await prisma.phoneVerification.create({
             data: {
                 code: verificationCode,
                 expiresAt: expirationTime,
-                contactId: contactId, // Use o ID diretamente
+                contactId: contactId,
             },
         });
 
-        // Envia o SMS com Twilio
         await client.messages.create({
             body: `Seu código de verificação é: ${verificationCode}`,
             from: process.env.TWILIO_PHONE_NUMBER,
