@@ -22,18 +22,16 @@ export const createUserController = async (req, res) => {
     }
 
     try {
-        // Gera o hash da senha com bcrypt
-        const saltRounds = 10; // Define a quantidade de salt rounds (quanto maior, mais seguro, mas mais lento)
+        const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // Chama o serviço de criação de usuário com a senha criptografada
         const user = await createUser(
             name,
             phone,
             bio,
             imageUrl,
             email,
-            hashedPassword, // Passa a senha criptografada
+            hashedPassword,
         );
 
         res.status(201).json(user);

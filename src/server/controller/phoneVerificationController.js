@@ -17,19 +17,17 @@ const formatPhoneNumber = (phone) => {
         cleanPhoneNumber = "55" + cleanPhoneNumber;
     }
 
-    // Valida o comprimento do número
     if (cleanPhoneNumber.length !== 13) {
         throw new Error(
             "Número de telefone inválido. Deve conter o código de país +55 e um DDD válido.",
         );
     }
 
-    // Retorna o número formatado como +55 (XX) XXXXX-XXXX
     return `+${cleanPhoneNumber.slice(0, 2)} (${cleanPhoneNumber.slice(2, 4)}) ${cleanPhoneNumber.slice(4, 9)}-${cleanPhoneNumber.slice(9)}`;
 };
 
 export const sendVerificationController = async (req, res) => {
-    const { name } = req.body; // Agora você passa o nome para buscar o telefone
+    const { name } = req.body;
 
     if (!name) {
         return res.status(400).json({
@@ -38,9 +36,8 @@ export const sendVerificationController = async (req, res) => {
     }
 
     try {
-        // Buscar o usuário pelo nome no banco de dados
         const user = await prisma.contact.findUnique({
-            where: { name }, // Aqui você busca o usuário pelo nome, pode ser qualquer outro critério
+            where: { name },
         });
 
         if (!user) {
@@ -49,13 +46,10 @@ export const sendVerificationController = async (req, res) => {
             });
         }
 
-        // Obter o número de telefone do usuário
         const phone = user.phone;
 
-        // Formatar o número de telefone
         const formattedPhone = formatPhoneNumber(phone);
 
-        // Validar o número de telefone
         if (!validatePhoneNumber(formattedPhone)) {
             return res.status(400).json({
                 message:
@@ -63,10 +57,8 @@ export const sendVerificationController = async (req, res) => {
             });
         }
 
-        // Enviar o código de verificação
-        await sendVerificationCode(formattedPhone, user.id); // Passa o ID do usuário para o serviço de verificação
+        await sendVerificationCode(formattedPhone, user.id);
 
-        // Resposta de sucesso
         res.status(200).json({
             message: "Código de verificação enviado com sucesso",
         });

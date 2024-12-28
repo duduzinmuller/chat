@@ -36,7 +36,6 @@ export const createEmailVerification = async (email) => {
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + 10);
 
-    // Encontrar o Contact pelo email
     const contact = await prisma.contact.findUnique({
         where: { email },
     });
@@ -45,12 +44,11 @@ export const createEmailVerification = async (email) => {
         throw new Error("Contato não encontrado.");
     }
 
-    // Criar a verificação de email com a relação ao contato usando o contactId
     const verification = await prisma.emailVerification.create({
         data: {
             code,
             expiresAt,
-            contactId: contact.id, // Aqui estamos usando o contactId para associar
+            contactId: contact.id,
         },
     });
 
@@ -61,7 +59,7 @@ export const createEmailVerification = async (email) => {
 
 export const verifyEmailCode = async (email, code) => {
     const verification = await prisma.emailVerification.findFirst({
-        where: { code, contact: { email } }, // Usando a relação entre contact e email
+        where: { code, contact: { email } },
     });
 
     if (!verification) {
