@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { createUser, getUserByPhone } from "../../services/userService.js";
 import validator from "validator";
 
@@ -21,15 +22,20 @@ export const createUserController = async (req, res) => {
     }
 
     try {
-        // Chama o serviço de criação de usuário com todos os parâmetros
+        // Gera o hash da senha com bcrypt
+        const saltRounds = 10; // Define a quantidade de salt rounds (quanto maior, mais seguro, mas mais lento)
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Chama o serviço de criação de usuário com a senha criptografada
         const user = await createUser(
             name,
             phone,
             bio,
             imageUrl,
             email,
-            password,
+            hashedPassword, // Passa a senha criptografada
         );
+
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
