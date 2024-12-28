@@ -7,7 +7,7 @@ export const sendVerificationCodeController = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-        return res.status(400).json({ message: "Email e necessario" });
+        return res.status(400).json({ message: "Email é necessário" });
     }
 
     try {
@@ -27,13 +27,13 @@ export const verifyCodeController = async (req, res) => {
     if (!email || !code) {
         return res
             .status(400)
-            .json({ message: "Email e codigo são necessarios." });
+            .json({ message: "Email e código são necessários." });
     }
 
     try {
         const verification = await verifyEmailCode(email, code);
         res.status(200).json({
-            message: "Codigo de verificação valido!",
+            message: "Código de verificação válido!",
             verification,
         });
     } catch (error) {

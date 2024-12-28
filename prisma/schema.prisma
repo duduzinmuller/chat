@@ -17,13 +17,12 @@ model PhoneVerification {
 
 model EmailVerification {
   id        Int      @id @default(autoincrement())
-  code      String   @db.VarChar(6) 
+  code      String   @db.VarChar(6)  
   expiresAt DateTime
-  email     String
+  contactId Int     
   createdAt DateTime @default(now())
-  
 
-  contact   Contact  @relation(fields: [email], references: [email])
+  contact   Contact  @relation(fields: [contactId], references: [id])
 }
 
 model Contact {
