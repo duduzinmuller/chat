@@ -20,7 +20,16 @@ const sendVerificationEmail = async (email, code) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Código de Verificação",
-        text: `Seu código de verificação é: ${code}. Este código expirará em 10 minutos.`,
+        text: `Olá,
+
+       Seu código de verificação é: ${code}.
+       Este código é válido por 10 minutos para confirmar sua identidade com segurança.
+
+       Se você não solicitou este código, por favor, ignore este e-mail.
+
+       Atenciosamente,
+       Berserk Mode
+       Telefone: 4384027399`,
     };
 
     try {
