@@ -35,6 +35,8 @@ model Contact {
   bio           String?            
   messages      Message[]
   verification  PhoneVerification []
+  resetCode             String?             
+  resetCodeExpiration   DateTime? 
   
  
   emailVerifications EmailVerification[] 
