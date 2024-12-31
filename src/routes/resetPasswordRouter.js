@@ -3,7 +3,7 @@ import {
     sendResetPasswordCode,
     verifyResetPasswordCode,
     resetPassword,
-} from "../controllers/resetPasswordController.js";
+} from "../server/controller/resetPasswordController.js";
 
 const router = express.Router();
 

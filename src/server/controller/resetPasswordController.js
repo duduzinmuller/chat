@@ -5,9 +5,6 @@ import {
 } from "../../services/resetPasswordService.js";
 import prisma from "../../utils/prismaClient.js";
 
-/**
- * Etapa 1: Enviar código de redefinição
- */
 export const sendResetPasswordCode = async (req, res) => {
     const { email } = req.body;
 
@@ -16,7 +13,7 @@ export const sendResetPasswordCode = async (req, res) => {
     }
 
     try {
-        const response = await createPasswordReset(email); // Gera e salva o código
+        const response = await createPasswordReset(email);
         res.status(200).json({
             message: "Código de redefinição enviado.",
             ...response,
@@ -26,9 +23,6 @@ export const sendResetPasswordCode = async (req, res) => {
     }
 };
 
-/**
- * Etapa 2: Verificar código de redefinição
- */
 export const verifyResetPasswordCode = async (req, res) => {
     const { email, resetCode } = req.body;
 
@@ -39,16 +33,13 @@ export const verifyResetPasswordCode = async (req, res) => {
     }
 
     try {
-        await verifyResetCode(email, resetCode); // Valida o código
+        await verifyResetCode(email, resetCode);
         res.status(200).json({ message: "Código validado com sucesso." });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-/**
- * Etapa 3: Redefinir senha
- */
 export const resetPassword = async (req, res) => {
     const { email, resetCode, newPassword } = req.body;
 
@@ -59,13 +50,10 @@ export const resetPassword = async (req, res) => {
     }
 
     try {
-        // Valida o código antes de continuar
         await verifyResetCode(email, resetCode);
 
-        // Criptografa a nova senha
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        // Atualiza a senha no banco de dados e limpa o código
         await prisma.contact.update({
             where: { email },
             data: {
