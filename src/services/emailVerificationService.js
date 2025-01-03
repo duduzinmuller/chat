@@ -69,6 +69,7 @@ export const createEmailVerification = async (email) => {
 export const verifyEmailCode = async (email, code) => {
     const verification = await prisma.emailVerification.findFirst({
         where: { code, contact: { email } },
+        include: { contact: true },
     });
 
     if (!verification) {

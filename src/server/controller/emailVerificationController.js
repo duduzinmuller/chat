@@ -34,6 +34,7 @@ export const verifyCodeController = async (req, res) => {
         const verification = await verifyEmailCode(email, code);
         res.status(200).json({
             message: "Código de verificação válido!",
+            contact: verification.contact,
             verification,
         });
     } catch (error) {
