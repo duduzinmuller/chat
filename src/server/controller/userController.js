@@ -62,10 +62,6 @@ export const socialLoginController = async (req, res) => {
     const { name, email, authProvider, providerId, imageUrl, bio, phone } =
         req.body;
 
-    if (!validator.isMobilePhone(phone)) {
-        return res.status(400).json({ message: "Invalid phone number" });
-    }
-
     if (!authProvider || !providerId) {
         return res
             .status(400)
@@ -76,20 +72,26 @@ export const socialLoginController = async (req, res) => {
         return res.status(400).json({ message: "Invalid auth provider" });
     }
 
+    if (!name || !email) {
+        return res.status(400).json({ message: "Name and email are required" });
+    }
+
     try {
         const user = await findOrCreateUser(
             name,
             email,
             authProvider,
             providerId,
-            imageUrl,
-            bio,
-            phone,
+            imageUrl || null,
+            bio || null,
+            phone || null,
         );
 
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
         console.error("Error handling social login:", error);
-        res.status(500).json({ message: error.message });
+        return res
+            .status(500)
+            .json({ message: "Error processing social login" });
     }
 };
