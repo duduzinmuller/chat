@@ -1,4 +1,3 @@
-// server.js
 import "dotenv/config.js";
 import express from "express";
 import cors from "cors";
@@ -9,6 +8,7 @@ import emailRouter from "./src/routes/emailVerificationRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import resetPasswordRouter from "./src/routes/resetPasswordRouter.js";
 import contactRouter from "./src/routes/contactRoutes.js";
+import updateRoutes from "./src/routes/userUpdateRoutes.js";
 
 const app = express();
 app.use(
@@ -27,6 +27,7 @@ app.use("/api/email", emailRouter);
 app.use("/api/auth", authRoutes);
 app.use("/auth", resetPasswordRouter);
 app.use("/api", contactRouter);
+app.use("/api/update", updateRoutes);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);

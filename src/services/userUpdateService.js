@@ -6,15 +6,20 @@ export const updateUserService = async (
     { name, phone, email, bio, imageUrl },
 ) => {
     if (!contactId) {
-        throw new Error("Contact ID is required");
+        throw new Error("User ID is required");
+    }
+
+    const userIdInt = parseInt(contactId, 10);
+    if (isNaN(userIdInt)) {
+        throw new Error("Invalid user ID format");
     }
 
     if (email && !validator.isEmail(email)) {
-        throw new Error("Formato do email invalido");
+        throw new Error("Invalid email format");
     }
 
     if (phone && !validator.isMobilePhone(phone, "any")) {
-        throw new Error("Formato de numero de telefone invalido");
+        throw new Error("Invalid phone number format");
     }
 
     const dataToUpdate = {
@@ -25,10 +30,10 @@ export const updateUserService = async (
         imageUrl: imageUrl || undefined,
     };
 
-    const updatedContact = await prisma.contact.update({
-        where: { id: contactId },
+    const updatedUser = await prisma.contact.update({
+        where: { id: userIdInt },
         data: dataToUpdate,
     });
 
-    return updatedContact;
+    return updatedUser;
 };
