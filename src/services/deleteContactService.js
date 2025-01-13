@@ -1,24 +1,51 @@
 import prisma from "../utils/prismaClient.js";
 
-class deleteContactService {
+class DeleteContactService {
     async removeFriend(contactId1, contactId2) {
+        console.log(
+            `Buscando os contatos com IDs: ${contactId1} e ${contactId2}`,
+        );
+
         const contact1 = await prisma.contact.findUnique({
             where: { id: contactId1 },
-            include: { friends: true },
         });
 
         const contact2 = await prisma.contact.findUnique({
             where: { id: contactId2 },
-            include: { friends: true },
         });
 
         if (!contact1 || !contact2) {
             throw new Error("Um ou ambos os usuários não existem.");
         }
 
-        if (!contact1.friends.some((friend) => friend.id === contactId2)) {
+        console.log("Contatos encontrados:", contact1, contact2);
+
+        const friendRequest = await prisma.friendRequest.findFirst({
+            where: {
+                OR: [
+                    {
+                        senderId: contactId1,
+                        receiverId: contactId2,
+                        status: "accepted",
+                    },
+                    {
+                        senderId: contactId2,
+                        receiverId: contactId1,
+                        status: "accepted",
+                    },
+                ],
+            },
+        });
+
+        console.log("Pedido de amizade encontrado:", friendRequest);
+
+        if (!friendRequest) {
             throw new Error("Esses usuários não são amigos.");
         }
+
+        await prisma.friendRequest.delete({
+            where: { id: friendRequest.id },
+        });
 
         await prisma.contact.update({
             where: { id: contactId1 },
@@ -42,4 +69,4 @@ class deleteContactService {
     }
 }
 
-export default new deleteContactService();
+export default new DeleteContactService();
