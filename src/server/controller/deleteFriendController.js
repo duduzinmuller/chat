@@ -1,6 +1,6 @@
 import deleteContactService from "../../services/deleteContactService.js";
 
-class deleteFriendController {
+class deleteContactController {
     async removeFriend(req, res) {
         const { contactId } = req.params;
         const currentContactId = req.contact.id;
@@ -17,4 +17,4 @@ class deleteFriendController {
     }
 }
 
-export default new deleteFriendController();
+export default new deleteContactController();
