@@ -6,12 +6,12 @@ export const updateUserService = async (
     { name, phone, email, bio, imageUrl },
 ) => {
     if (!contactId) {
-        throw new Error("User ID is required");
+        throw new Error("Contact ID is required");
     }
 
     const userIdInt = parseInt(contactId, 10);
     if (isNaN(userIdInt)) {
-        throw new Error("Invalid user ID format");
+        throw new Error("Invalid contact ID format");
     }
 
     if (email && !validator.isEmail(email)) {
@@ -22,6 +22,14 @@ export const updateUserService = async (
         throw new Error("Invalid phone number format");
     }
 
+    const existingContact = await prisma.contact.findUnique({
+        where: { id: userIdInt },
+    });
+
+    if (!existingContact) {
+        throw new Error(`No contact found with ID ${userIdInt}`);
+    }
+
     const dataToUpdate = {
         name: name || undefined,
         phone: phone || undefined,
@@ -30,10 +38,15 @@ export const updateUserService = async (
         imageUrl: imageUrl || undefined,
     };
 
-    const updatedUser = await prisma.contact.update({
-        where: { id: userIdInt },
-        data: dataToUpdate,
-    });
+    try {
+        const updatedUser = await prisma.contact.update({
+            where: { id: userIdInt },
+            data: dataToUpdate,
+        });
 
-    return updatedUser;
+        return updatedUser;
+    } catch (error) {
+        console.error("Error updating contact:", error.message);
+        throw new Error("Failed to update contact");
+    }
 };

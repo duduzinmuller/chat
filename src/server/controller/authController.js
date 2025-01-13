@@ -4,7 +4,7 @@ import {
 } from "../../services/authService.js";
 
 export const loginController = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, imageUrl } = req.body;
 
     if (!email || !password) {
         return res
@@ -13,7 +13,7 @@ export const loginController = async (req, res) => {
     }
 
     try {
-        const { token, contact } = await loginUser(email, password);
+        const { token, contact } = await loginUser(email, password, imageUrl);
         res.status(200).json({
             message: "Login realizado com sucesso",
             token,
