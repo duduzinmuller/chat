@@ -22,6 +22,12 @@ class FriendController {
         const { requestId } = req.params;
 
         try {
+            if (isNaN(requestId)) {
+                return res
+                    .status(400)
+                    .json({ error: "ID de solicitação inválido." });
+            }
+
             const request = await friendService.acceptFriendRequest(
                 parseInt(requestId),
             );
