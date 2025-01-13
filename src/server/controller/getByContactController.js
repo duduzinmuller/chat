@@ -2,7 +2,7 @@ import { getContactById } from "../../services/getByContactService.js";
 
 export const getContact = async (req, res) => {
     try {
-        const contact = await getContactById(req.params.id);
+        const contact = await getContactById(req.params.contactId);
         res.status(200).json(contact);
     } catch (error) {
         if (error.message === "Contato não encontrado") {
