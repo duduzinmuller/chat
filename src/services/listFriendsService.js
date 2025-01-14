@@ -18,7 +18,7 @@ export class FriendListService {
             });
 
             if (!contactWithFriends) {
-                throw new Error("Contato não encontrado");
+                return [];
             }
 
             return contactWithFriends.friends;
