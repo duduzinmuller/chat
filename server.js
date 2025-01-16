@@ -11,6 +11,7 @@ import contactRouter from "./src/routes/contactRoutes.js";
 import updateRoutes from "./src/routes/userUpdateRoutes.js";
 import getContactRoutes from "./src/routes/getByContactRoutes.js";
 import friendRouter from "./src/routes/friendRoutes.js";
+import getContactRouter from "./src/routes/getContactRoutes.js";
 
 const app = express();
 app.use(
@@ -34,6 +35,7 @@ app.use("/api", contactRouter);
 app.use("/api/update", updateRoutes);
 app.use("/api/get", getContactRoutes);
 app.use("/api/friends", friendRouter);
+app.use("/api/provider", getContactRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
