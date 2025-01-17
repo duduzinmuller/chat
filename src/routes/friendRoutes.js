@@ -3,6 +3,7 @@ import friendController from "../server/controller/friendController.js";
 import deleteContactController from "../server/controller/deleteFriendController.js";
 import authenticate from "../utils/middleware.js";
 import { FriendListController } from "../server/controller/listFriendController.js";
+import friendStatusController from "../server/controller/friendStatusController.js";
 const router = express.Router();
 
 router.post("/send", friendController.sendFriendRequest);
@@ -19,4 +20,5 @@ router.delete(
 
 router.get("/list/:contactId", FriendListController.getFriends);
 
+router.get("/status/:contactId", friendStatusController.getFriendStatus);
 export default router;
