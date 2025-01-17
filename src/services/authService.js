@@ -30,6 +30,8 @@ export const loginUser = async (email, password) => {
             email: contact.email,
             name: contact.name,
             imageUrl: contact.imageUrl,
+            bio: contact.bio,
+            phone: contact.phone,
         },
     };
 };
