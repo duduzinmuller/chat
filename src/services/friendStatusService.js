@@ -27,4 +27,4 @@ const friendStatusService = {
     },
 };
 
-module.exports = friendStatusService;
+export default friendStatusService;
