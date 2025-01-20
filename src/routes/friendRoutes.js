@@ -20,5 +20,9 @@ router.delete(
 
 router.get("/list/:contactId", FriendListController.getFriends);
 
-router.get("/status/:contactId", friendStatusController.getFriendStatus);
+router.get(
+    "/status/:contactId",
+    authenticate,
+    friendStatusController.getFriendsStatus,
+);
 export default router;
