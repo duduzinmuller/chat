@@ -9,9 +9,8 @@ export const updateUserService = async (
         throw new Error("Contact ID is required");
     }
 
-    const userIdInt = parseInt(contactId, 10);
-    if (isNaN(userIdInt)) {
-        throw new Error("Invalid contact ID format");
+    if (!validator.isUUID(contactId)) {
+        throw new Error("Invalid contact ID format (must be a valid UUID)");
     }
 
     if (email && !validator.isEmail(email)) {
@@ -23,11 +22,11 @@ export const updateUserService = async (
     }
 
     const existingContact = await prisma.contact.findUnique({
-        where: { id: userIdInt },
+        where: { id: contactId },
     });
 
     if (!existingContact) {
-        throw new Error(`No contact found with ID ${userIdInt}`);
+        throw new Error(`No contact found with ID ${contactId}`);
     }
 
     const dataToUpdate = {
@@ -40,7 +39,7 @@ export const updateUserService = async (
 
     try {
         const updatedUser = await prisma.contact.update({
-            where: { id: userIdInt },
+            where: { id: contactId },
             data: dataToUpdate,
         });
 

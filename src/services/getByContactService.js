@@ -2,11 +2,13 @@ import prisma from "../utils/prismaClient.js";
 
 export const getContactById = async (contactId) => {
     try {
-        const id = parseInt(contactId, 10);
+        if (!contactId || typeof contactId !== "string") {
+            throw new Error("ID de contato inválido.");
+        }
 
         const contact = await prisma.contact.findUnique({
             where: {
-                id: id,
+                id: contactId,
             },
         });
 

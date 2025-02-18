@@ -14,7 +14,7 @@ class DeleteContactController {
 
             const response = await deleteContactService.removeFriend(
                 currentContactId,
-                parseInt(contactId),
+                contactId,
             );
 
             res.status(200).json(response);

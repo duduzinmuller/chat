@@ -9,7 +9,6 @@ import validator from "validator";
 export const createUserController = async (req, res) => {
     const { name, phone, email, password, bio, imageUrl } = req.body;
 
-    // Validação de senha
     if (!password) {
         return res.status(400).json({ message: "Password is required" });
     }
@@ -20,7 +19,6 @@ export const createUserController = async (req, res) => {
             .json({ message: "Password must be at least 8 characters long" });
     }
 
-    // Validação de email
     if (!validator.isEmail(email)) {
         return res.status(400).json({ message: "Invalid email format" });
     }

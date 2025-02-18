@@ -6,6 +6,7 @@ const friendStatusService = {
             userId: req.user?.id,
             contactId,
         });
+
         if (!req.user || !req.user.id) {
             throw new Error("Usuário não autenticado");
         }
@@ -14,8 +15,8 @@ const friendStatusService = {
             throw new Error("ContactId inválido");
         }
 
-        const userId = parseInt(req.user.id, 10);
-        const parsedContactId = parseInt(contactId, 10);
+        const userId = req.user.id;
+        const parsedContactId = contactId;
 
         const friendStatus = await prisma.friendRequest.findFirst({
             where: {
@@ -26,6 +27,7 @@ const friendStatusService = {
             },
         });
 
+        // Retorna o status da amizade
         if (friendStatus) {
             if (friendStatus.status === "accepted") {
                 return { status: "friends" };

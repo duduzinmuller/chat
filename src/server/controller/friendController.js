@@ -22,15 +22,13 @@ class FriendController {
         const { requestId } = req.params;
 
         try {
-            if (isNaN(requestId)) {
+            if (!requestId) {
                 return res
                     .status(400)
                     .json({ error: "ID de solicitação inválido." });
             }
 
-            const request = await friendService.acceptFriendRequest(
-                parseInt(requestId),
-            );
+            const request = await friendService.acceptFriendRequest(requestId);
             res.status(200).json({
                 message: "Solicitação de amizade aceita!",
                 request,
@@ -44,9 +42,7 @@ class FriendController {
         const { requestId } = req.params;
 
         try {
-            const request = await friendService.rejectFriendRequest(
-                parseInt(requestId),
-            );
+            const request = await friendService.rejectFriendRequest(requestId);
             res.status(200).json({
                 message: "Solicitação de amizade rejeitada.",
                 request,
